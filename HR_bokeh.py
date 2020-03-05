@@ -2,12 +2,9 @@
 import numpy as np
 import pandas as pd
 import bokeh
-from bokeh.models import ColumnDataSource, LabelSet
-from bokeh.plotting import figure, show, output_file #, output_notebook
-#from bokeh.sampledata.periodic_table import elements
+from bokeh.models import ColumnDataSource
+from bokeh.plotting import figure, show, output_file 
 
-
-#MESA_file = 'LOGS/history.data'
 MESA_file = 'solar_model_history.data'
 
 model_number, star_age, log_Teff, log_L= np.loadtxt(MESA_file, usecols=(0,2,37,38), unpack=True, skiprows=7)
@@ -18,9 +15,6 @@ star_age = star_age[select]
 log_Teff = log_Teff[select]
 log_L = log_L[select]
 
-
-palette = ["#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0",
-           "#f7f7f7", "#fddbc7", "#f4a582", "#d6604d", "#b2182b", "#67001f"]
 
 ## the dictionary
 star_features ={
@@ -52,13 +46,7 @@ p.hover.tooltips = [
 
 p.circle('log_Teff', 'log_L', size=5, source = source, 
          color='green',  fill_alpha=0.8) #line_color="black",
-
-# labels = LabelSet(x="log_Teff", y="log_L", text="symbol", y_offset=8,
-#                   text_font_size="8pt", text_color="#555555",
-#                   source=source, text_align='center')
-# p.add_layout(labels)
 p.x_range.flipped = True
 
 output_file("HR.html", title="Bokeh HR plot example")#, mode='inline')
-#output_notebook()
 show(p)
